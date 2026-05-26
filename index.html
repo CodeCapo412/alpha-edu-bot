@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Alpha Ethiopian Education</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #8B6914;
+    --navy: #0D1B2A;
+    --navy-mid: #142233;
+    --navy-light: #1C2F42;
+    --navy-card: #172030;
+    --white: #F0EDE6;
+    --white-dim: #B0A898;
+    --red: #C0392B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Crimson Pro', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(160deg, #0a1520 0%, var(--navy-mid) 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    padding: 18px 20px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .logo {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--navy);
+    flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(201,168,76,0.3);
+  }
+  .header-text h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+  .header-text p {
+    font-size: 12px;
+    color: var(--white-dim);
+    font-style: italic;
+  }
+  .video-count {
+    margin-left: auto;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    white-space: nowrap;
+  }
+
+  /* ── FILTERS ── */
+  .filters {
+    padding: 0 20px;
+  }
+  .filter-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    font-family: 'Cinzel', serif;
+    margin-bottom: 7px;
+  }
+  .filter-row {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+    margin-bottom: 10px;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(201,168,76,0.25);
+    background: transparent;
+    color: var(--white-dim);
+    font-size: 13px;
+    font-family: 'Crimson Pro', serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .chip.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--navy);
+    font-weight: 600;
+    box-shadow: 0 3px 12px rgba(201,168,76,0.4);
+  }
+  .chip:not(.active):active { background: rgba(201,168,76,0.1); }
+
+  /* ── HERO ── */
+  .hero {
+    margin: 0 16px 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    height: 140px;
+    background: linear-gradient(135deg, #0a1a2e 0%, #1a2f4a 50%, #0d2038 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .hero-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 80% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(201,168,76,0.03) 20px, rgba(201,168,76,0.03) 21px);
+  }
+  .hero-math {
+    position: absolute;
+    right: 16px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 42px;
+    opacity: 0.07;
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    line-height: 1;
+    text-align: right;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 22px 20px;
+  }
+  .hero-content h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .hero-content p {
+    font-size: 13px;
+    color: var(--white-dim);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .hero-badge {
+    display: inline-block;
+    margin-top: 10px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    padding: 0 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .section-title h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+  .section-title span {
+    font-size: 12px;
+    color: var(--white-dim);
+    font-style: italic;
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .card:active { transform: scale(0.97); }
+  .card:hover { border-color: rgba(201,168,76,0.4); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-thumb {
+    height: 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .thumb-math {
+    background: linear-gradient(135deg, #0d1e33 0%, #1a3050 100%);
+  }
+  .thumb-physics {
+    background: linear-gradient(135deg, #0d2030 0%, #0f2e42 100%);
+  }
+  .thumb-chemistry {
+    background: linear-gradient(135deg, #1a1030 0%, #2a1848 100%);
+  }
+  .thumb-biology {
+    background: linear-gradient(135deg, #0d2218 0%, #0f3020 100%);
+  }
+  .thumb-default {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+
+  .thumb-icon {
+    position: absolute;
+    right: 10px; bottom: 8px;
+    font-size: 32px;
+    opacity: 0.25;
+  }
+  .thumb-glow {
+    position: absolute;
+    top: -20px; left: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+  }
+
+  .card-badges {
+    position: absolute;
+    top: 7px; left: 7px; right: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .badge-subject {
+    background: rgba(201,168,76,0.85);
+    color: #0D1B2A;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    padding: 2px 7px;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+  }
+  .badge-grade {
+    background: rgba(13,27,42,0.8);
+    color: var(--gold-light);
+    font-size: 9px;
+    font-family: 'Cinzel', serif;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .card-body { padding: 10px 10px 12px; }
+  .card-unit {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    font-family: 'Cinzel', serif;
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-watch {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    color: var(--navy);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    letter-spacing: 0.3px;
+    box-shadow: 0 3px 10px rgba(201,168,76,0.3);
+    transition: opacity 0.15s;
+  }
+  .card-watch:active { opacity: 0.8; }
+  .play-icon { font-size: 9px; }
+
+  /* ── EMPTY STATE ── */
+  .empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--white-dim);
+    font-style: italic;
+    font-size: 15px;
+  }
+  .empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
+
+  /* ── BOTTOM SPACE ── */
+  .bottom-space { height: 32px; }
+
+  /* ── LOADING ── */
+  .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    gap: 16px;
+  }
+  .loader {
+    width: 36px; height: 36px;
+    border: 2px solid rgba(201,168,76,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p { color: var(--white-dim); font-style: italic; font-size: 14px; }
+
+  /* ── SUBJECT COLORS ── */
+  .subject-Math     .badge-subject { background: rgba(41,182,246,0.85); }
+  .subject-Physics  .badge-subject { background: rgba(255,167,38,0.85); }
+  .subject-Chemistry .badge-subject { background: rgba(171,71,188,0.85); }
+  .subject-Biology  .badge-subject { background: rgba(102,187,106,0.85); }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="loading">
+    <div class="loader"></div>
+    <p>Loading courses…</p>
+  </div>
+</div>
+
+<script>
+// ── Telegram WebApp Init ──────────────────────────────────────────────────────
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+  tg.setHeaderColor('#0D1B2A');
+  tg.setBackgroundColor('#0D1B2A');
+}
+
+// ── Data ─────────────────────────────────────────────────────────────────────
+// IMPORTANT: Replace this URL with your hosted courses.json URL after deploying
+// e.g. "https://yourusername.github.io/alpha-edu-bot/courses.json"
+const COURSES_URL = './courses.json';
+
+let allVideos  = [];
+let activeGrade   = 'all';
+let activeSubject = 'all';
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+const subjectThumb = {
+  Math:      { cls: 'thumb-math',      icon: '📐' },
+  Physics:   { cls: 'thumb-physics',   icon: '⚡' },
+  Chemistry: { cls: 'thumb-chemistry', icon: '🧪' },
+  Biology:   { cls: 'thumb-biology',   icon: '🌿' },
+};
+
+function flattenCourses(courses) {
+  const videos = [];
+  for (const [grade, subjects] of Object.entries(courses)) {
+    for (const [subject, units] of Object.entries(subjects)) {
+      for (const unit of units) {
+        videos.push({ grade, subject, ...unit });
+      }
+    }
+  }
+  return videos;
+}
+
+function getGrades(videos) {
+  return [...new Set(videos.map(v => v.grade))].sort((a,b) => +a - +b);
+}
+
+function getSubjects(videos) {
+  return [...new Set(videos.map(v => v.subject))].sort();
+}
+
+function filtered() {
+  return allVideos.filter(v => {
+    if (activeGrade   !== 'all' && v.grade   !== activeGrade)   return false;
+    if (activeSubject !== 'all' && v.subject !== activeSubject) return false;
+    return true;
+  });
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function render() {
+  const grades   = getGrades(allVideos);
+  const subjects = getSubjects(allVideos);
+  const videos   = filtered();
+  const total    = allVideos.length;
+
+  const gradeChips = ['all', ...grades].map(g => `
+    <button class="chip ${activeGrade === g ? 'active' : ''}"
+            onclick="setGrade('${g}')">
+      ${g === 'all' ? 'All Grades' : 'Grade ' + g}
+    </button>`).join('');
+
+  const subjectChips = ['all', ...subjects].map(s => `
+    <button class="chip ${activeSubject === s ? 'active' : ''}"
+            onclick="setSubject('${s}')">
+      ${s === 'all' ? 'All Subjects' : s}
+    </button>`).join('');
+
+  const cards = videos.length === 0
+    ? `<div class="empty" style="grid-column:1/-1">
+         <div class="empty-icon">📚</div>
+         No videos found for this filter.
+       </div>`
+    : videos.map((v, i) => {
+        const thumb = subjectThumb[v.subject] || { cls: 'thumb-default', icon: '📖' };
+        return `
+        <div class="card subject-${v.subject}" style="animation-delay:${i*0.04}s"
+             onclick="openVideo('${v.url}')">
+          <div class="card-thumb ${thumb.cls}">
+            <div class="thumb-glow"></div>
+            <div class="thumb-icon">${thumb.icon}</div>
+            <div class="card-badges">
+              <span class="badge-subject">${v.subject}</span>
+              <span class="badge-grade">Grade ${v.grade}</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-unit">${v.unit_no ? 'Unit ' + v.unit_no : ''}</div>
+            <div class="card-title">${v.title.replace(/^Unit[\d\.]+:\s*/i,'')}</div>
+            <button class="card-watch" onclick="event.stopPropagation();openVideo('${v.url}')">
+              <span class="play-icon">▶</span> Watch
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+
+  document.getElementById('app').innerHTML = `
+    <div class="header">
+      <div class="header-top">
+        <div class="logo">α</div>
+        <div class="header-text">
+          <h1>Alpha Ethiopian Education</h1>
+          <p>High School Learning Hub</p>
+        </div>
+        <div class="video-count">${total} Videos</div>
+      </div>
+      <div class="filters">
+        <div class="filter-label">Grade</div>
+        <div class="filter-row">${gradeChips}</div>
+        <div class="filter-label">Subject</div>
+        <div class="filter-row">${subjectChips}</div>
+      </div>
+    </div>
+
+    <div style="padding:16px 0 0">
+      <div class="hero">
+        <div class="hero-pattern"></div>
+        <div class="hero-math">∑∫π<br>∞√</div>
+        <div class="hero-content">
+          <h2>Elevate Your Academic Journey</h2>
+          <p>Master Math, Physics & Chemistry<br>with free video lessons</p>
+          <span class="hero-badge">Grades 9 – 12</span>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>All Videos</h3>
+        <span>${videos.length} available</span>
+      </div>
+
+      <div class="grid">${cards}</div>
+      <div class="bottom-space"></div>
+    </div>
+  `;
+}
+
+// ── Actions ──────────────────────────────────────────────────────────────────
+function setGrade(g) {
+  activeGrade = g;
+  render();
+}
+function setSubject(s) {
+  activeSubject = s;
+  render();
+}
+function openVideo(url) {
+  if (tg) {
+    tg.openLink(url);
+  } else {
+    window.open(url, '_blank');
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const res = await fetch(COURSES_URL);
+    if (!res.ok) throw new Error('Failed to load courses');
+    const courses = await res.json();
+    allVideos = flattenCourses(courses);
+    render();
+  } catch (err) {
+    document.getElementById('app').innerHTML = `
+      <div class="loading">
+        <div class="empty-icon">⚠️</div>
+        <p style="color:#C0392B">Could not load courses.<br>Check your connection.</p>
+      </div>`;
+    console.error(err);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
