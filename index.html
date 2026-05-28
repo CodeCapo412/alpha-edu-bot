@@ -2,562 +2,267 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Alpha Ethiopian Education</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C97A;
-    --gold-dim: #8B6914;
-    --navy: #0D1B2A;
-    --navy-mid: #142233;
-    --navy-light: #1C2F42;
-    --navy-card: #172030;
-    --white: #F0EDE6;
-    --white-dim: #B0A898;
-    --red: #C0392B;
-  }
+:root {
+  --bg:#F4F6F9;--surface:#FFFFFF;--border:#E5E9F0;
+  --text:#0F1724;--text2:#4B5768;--text3:#9AA3B0;
+  --blue:#1B4FD8;--blue2:#1E429F;--blue-light:#EEF2FF;--blue-mid:#3B71CA;
+  --green:#057A55;--green-light:#ECFDF5;
+  --orange:#C05621;--orange-light:#FFF7ED;
+  --purple:#6C2BD9;--purple-light:#F5F3FF;
+  --red:#C81E1E;--red-light:#FEF2F2;
+  --s1:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --s2:0 4px 16px rgba(0,0,0,.08),0 1px 4px rgba(0,0,0,.04);
+  --r:12px;--r2:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* NAV */
+.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;height:56px;position:sticky;top:0;z-index:200;gap:10px}
+.nav-logo{width:34px;height:34px;background:var(--blue);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:17px;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(27,79,216,.35)}
+.nav-name{font-size:14px;font-weight:700;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-pill{background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0}
 
-  body {
-    background: var(--navy);
-    color: var(--white);
-    font-family: 'Crimson Pro', Georgia, serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* SEARCH */
+.search-wrap{padding:14px 16px 0}
+.search-inner{display:flex;align-items:center;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:0 12px;gap:8px;transition:border-color .2s}
+.search-inner:focus-within{border-color:var(--blue)}
+.search-inner input{flex:1;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);padding:10px 0}
+.search-inner input::placeholder{color:var(--text3)}
 
-  /* ── HEADER ── */
-  .header {
-    background: linear-gradient(160deg, #0a1520 0%, var(--navy-mid) 100%);
-    border-bottom: 1px solid rgba(201,168,76,0.25);
-    padding: 18px 20px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .logo {
-    width: 42px; height: 42px;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cinzel', serif;
-    font-size: 18px; font-weight: 700;
-    color: var(--navy);
-    flex-shrink: 0;
-    box-shadow: 0 4px 15px rgba(201,168,76,0.3);
-  }
-  .header-text h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--gold-light);
-    letter-spacing: 0.5px;
-    line-height: 1.2;
-  }
-  .header-text p {
-    font-size: 12px;
-    color: var(--white-dim);
-    font-style: italic;
-  }
-  .video-count {
-    margin-left: auto;
-    background: rgba(201,168,76,0.12);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 20px;
-    padding: 4px 10px;
-    font-size: 11px;
-    color: var(--gold);
-    font-family: 'Cinzel', serif;
-    white-space: nowrap;
-  }
+/* CHIPS */
+.chips-wrap{padding:12px 16px 0}
+.chips-label{font-size:10px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s;white-space:nowrap}
+.chip:active{transform:scale(.96)}
+.chip.on-grade{background:var(--blue);border-color:var(--blue);color:#fff}
+.chip.on-Math{background:var(--blue);border-color:var(--blue);color:#fff}
+.chip.on-Physics{background:var(--orange);border-color:var(--orange);color:#fff}
+.chip.on-Chemistry{background:var(--purple);border-color:var(--purple);color:#fff}
+.chip.on-Biology{background:var(--green);border-color:var(--green);color:#fff}
+.chip.on-all{background:var(--text);border-color:var(--text);color:#fff}
 
-  /* ── FILTERS ── */
-  .filters {
-    padding: 0 20px;
-  }
-  .filter-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    font-family: 'Cinzel', serif;
-    margin-bottom: 7px;
-  }
-  .filter-row {
-    display: flex;
-    gap: 7px;
-    overflow-x: auto;
-    padding-bottom: 3px;
-    scrollbar-width: none;
-    margin-bottom: 10px;
-  }
-  .filter-row::-webkit-scrollbar { display: none; }
-  .chip {
-    flex-shrink: 0;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(201,168,76,0.25);
-    background: transparent;
-    color: var(--white-dim);
-    font-size: 13px;
-    font-family: 'Crimson Pro', serif;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .chip.active {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: var(--navy);
-    font-weight: 600;
-    box-shadow: 0 3px 12px rgba(201,168,76,0.4);
-  }
-  .chip:not(.active):active { background: rgba(201,168,76,0.1); }
+/* HERO */
+.hero{margin:14px 16px 0;background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 100%);border-radius:var(--r);padding:22px 20px;color:#fff;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.06)}
+.hero::after{content:'';position:absolute;bottom:-50px;right:30px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.04)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;margin-bottom:10px}
+.hero h2{font-family:'DM Serif Display',serif;font-size:21px;line-height:1.28;margin-bottom:7px;position:relative}
+.hero p{font-size:13px;opacity:.82;line-height:1.5;position:relative}
+.hero-nums{display:flex;gap:20px;margin-top:16px;position:relative}
+.hnum{display:flex;flex-direction:column;gap:1px}
+.hnum-n{font-size:20px;font-weight:700;line-height:1}
+.hnum-l{font-size:10px;opacity:.7;letter-spacing:.3px}
 
-  /* ── HERO ── */
-  .hero {
-    margin: 0 16px 20px;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    height: 140px;
-    background: linear-gradient(135deg, #0a1a2e 0%, #1a2f4a 50%, #0d2038 100%);
-    border: 1px solid rgba(201,168,76,0.2);
-  }
-  .hero-pattern {
-    position: absolute; inset: 0;
-    background-image:
-      radial-gradient(circle at 80% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
-      repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(201,168,76,0.03) 20px, rgba(201,168,76,0.03) 21px);
-  }
-  .hero-math {
-    position: absolute;
-    right: 16px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 42px;
-    opacity: 0.07;
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    line-height: 1;
-    text-align: right;
-  }
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    padding: 22px 20px;
-  }
-  .hero-content h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--gold-light);
-    margin-bottom: 6px;
-    line-height: 1.3;
-  }
-  .hero-content p {
-    font-size: 13px;
-    color: var(--white-dim);
-    font-style: italic;
-    line-height: 1.5;
-  }
-  .hero-badge {
-    display: inline-block;
-    margin-top: 10px;
-    background: rgba(201,168,76,0.15);
-    border: 1px solid rgba(201,168,76,0.35);
-    border-radius: 12px;
-    padding: 3px 10px;
-    font-size: 11px;
-    color: var(--gold);
-    font-family: 'Cinzel', serif;
-  }
+/* GRADE SCROLLER */
+.section{padding:20px 16px 0}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:16px;font-weight:700}
+.sec-count{font-size:12px;color:var(--text3);font-weight:500}
+.grade-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.grade-row::-webkit-scrollbar{display:none}
+.gcard{flex-shrink:0;width:110px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:all .2s;box-shadow:var(--s1)}
+.gcard:active{transform:scale(.97)}
+.gcard.sel{border-color:var(--blue);background:var(--blue-light)}
+.gcard-n{font-family:'DM Serif Display',serif;font-size:28px;color:var(--blue);line-height:1;margin-bottom:2px}
+.gcard-lbl{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:7px}
+.gcard-ct{font-size:11px;color:var(--text3)}
+.gbar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.gbar-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .4s}
 
-  /* ── SECTION TITLE ── */
-  .section-title {
-    padding: 0 16px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
-  .section-title h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--white);
-    letter-spacing: 0.5px;
-  }
-  .section-title span {
-    font-size: 12px;
-    color: var(--white-dim);
-    font-style: italic;
-  }
+/* SUBJECT DIVIDER */
+.sub-hd{display:flex;align-items:center;gap:10px;padding:20px 16px 10px}
+.sub-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sub-info h4{font-size:15px;font-weight:700;color:var(--text)}
+.sub-info p{font-size:12px;color:var(--text3)}
 
-  /* ── GRID ── */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 0 16px;
-  }
+/* VIDEO CARD */
+.vlist{display:flex;flex-direction:column;gap:9px;padding:0 16px}
+.vcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:stretch;cursor:pointer;box-shadow:var(--s1);transition:box-shadow .2s,transform .15s;animation:up .32s ease both;overflow:hidden}
+.vcard:active{transform:scale(.985);box-shadow:none}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.vcard-thumb{width:88px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative}
+.vcard-thumb.Math{background:linear-gradient(145deg,#EEF2FF,#C7D2FE)}
+.vcard-thumb.Physics{background:linear-gradient(145deg,#FFF7ED,#FED7AA)}
+.vcard-thumb.Chemistry{background:linear-gradient(145deg,#F5F3FF,#DDD6FE)}
+.vcard-thumb.Biology{background:linear-gradient(145deg,#ECFDF5,#A7F3D0)}
+.vcard-thumb.def{background:linear-gradient(145deg,#F0F2F5,#E4E7EC)}
+.play-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.play-btn{width:28px;height:28px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15);font-size:9px;color:var(--blue);padding-left:2px}
+.vcard-body{flex:1;padding:11px 13px 11px 11px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.vmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.vbadge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px}
+.vbadge.Math{background:var(--blue-light);color:var(--blue)}
+.vbadge.Physics{background:var(--orange-light);color:var(--orange)}
+.vbadge.Chemistry{background:var(--purple-light);color:var(--purple)}
+.vbadge.Biology{background:var(--green-light);color:var(--green)}
+.vgrade{font-size:11px;color:var(--text3);font-weight:500}
+.vunit{font-size:10px;color:var(--text3);letter-spacing:.3px}
+.vtitle{font-size:13.5px;font-weight:600;color:var(--text);line-height:1.38;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vwatch{margin-top:4px;font-size:12px;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:3px}
 
-  /* ── CARD ── */
-  .card {
-    background: var(--navy-card);
-    border: 1px solid rgba(201,168,76,0.15);
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
-    animation: fadeUp 0.4s ease both;
-  }
-  .card:active { transform: scale(0.97); }
-  .card:hover { border-color: rgba(201,168,76,0.4); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+/* EMPTY */
+.empty{text-align:center;padding:52px 24px}
+.empty-ico{font-size:42px;margin-bottom:12px}
+.empty-t{font-size:16px;font-weight:700;margin-bottom:6px}
+.empty-s{font-size:13px;color:var(--text3)}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* LOADER */
+.loader-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:70vh;gap:14px}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-t{font-size:14px;color:var(--text3)}
 
-  .card-thumb {
-    height: 90px;
-    position: relative;
-    overflow: hidden;
-  }
-  .thumb-math {
-    background: linear-gradient(135deg, #0d1e33 0%, #1a3050 100%);
-  }
-  .thumb-physics {
-    background: linear-gradient(135deg, #0d2030 0%, #0f2e42 100%);
-  }
-  .thumb-chemistry {
-    background: linear-gradient(135deg, #1a1030 0%, #2a1848 100%);
-  }
-  .thumb-biology {
-    background: linear-gradient(135deg, #0d2218 0%, #0f3020 100%);
-  }
-  .thumb-default {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  }
-
-  .thumb-icon {
-    position: absolute;
-    right: 10px; bottom: 8px;
-    font-size: 32px;
-    opacity: 0.25;
-  }
-  .thumb-glow {
-    position: absolute;
-    top: -20px; left: -20px;
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
-  }
-
-  .card-badges {
-    position: absolute;
-    top: 7px; left: 7px; right: 7px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .badge-subject {
-    background: rgba(201,168,76,0.85);
-    color: #0D1B2A;
-    font-size: 9px;
-    font-weight: 700;
-    font-family: 'Cinzel', serif;
-    padding: 2px 7px;
-    border-radius: 8px;
-    letter-spacing: 0.3px;
-  }
-  .badge-grade {
-    background: rgba(13,27,42,0.8);
-    color: var(--gold-light);
-    font-size: 9px;
-    font-family: 'Cinzel', serif;
-    padding: 2px 6px;
-    border-radius: 8px;
-    border: 1px solid rgba(201,168,76,0.3);
-  }
-
-  .card-body { padding: 10px 10px 12px; }
-  .card-unit {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    font-family: 'Cinzel', serif;
-    margin-bottom: 4px;
-  }
-  .card-title {
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--white);
-    line-height: 1.4;
-    margin-bottom: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .card-watch {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
-    color: var(--navy);
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 11px;
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    justify-content: center;
-    letter-spacing: 0.3px;
-    box-shadow: 0 3px 10px rgba(201,168,76,0.3);
-    transition: opacity 0.15s;
-  }
-  .card-watch:active { opacity: 0.8; }
-  .play-icon { font-size: 9px; }
-
-  /* ── EMPTY STATE ── */
-  .empty {
-    text-align: center;
-    padding: 48px 24px;
-    color: var(--white-dim);
-    font-style: italic;
-    font-size: 15px;
-  }
-  .empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
-
-  /* ── BOTTOM SPACE ── */
-  .bottom-space { height: 32px; }
-
-  /* ── LOADING ── */
-  .loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 60vh;
-    gap: 16px;
-  }
-  .loader {
-    width: 36px; height: 36px;
-    border: 2px solid rgba(201,168,76,0.2);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading p { color: var(--white-dim); font-style: italic; font-size: 14px; }
-
-  /* ── SUBJECT COLORS ── */
-  .subject-Math     .badge-subject { background: rgba(41,182,246,0.85); }
-  .subject-Physics  .badge-subject { background: rgba(255,167,38,0.85); }
-  .subject-Chemistry .badge-subject { background: rgba(171,71,188,0.85); }
-  .subject-Biology  .badge-subject { background: rgba(102,187,106,0.85); }
+.pad{height:36px}
 </style>
 </head>
 <body>
-
-<div id="app">
-  <div class="loading">
-    <div class="loader"></div>
-    <p>Loading courses…</p>
-  </div>
-</div>
+<div id="root"><div class="loader-wrap"><div class="spinner"></div><p class="loader-t">Loading courses…</p></div></div>
 
 <script>
-// ── Telegram WebApp Init ──────────────────────────────────────────────────────
-const tg = window.Telegram?.WebApp;
-if (tg) {
-  tg.ready();
-  tg.expand();
-  tg.setHeaderColor('#0D1B2A');
-  tg.setBackgroundColor('#0D1B2A');
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
+
+const COURSES_URL='./courses.json';
+let ALL=[],grade='all',sub='all',q='';
+
+const ICON ={Math:'📐',Physics:'⚡',Chemistry:'🧪',Biology:'🌿',English:'📝'};
+const COLOR={Math:'#1B4FD8',Physics:'#C05621',Chemistry:'#6C2BD9',Biology:'#057A55',English:'#C81E1E'};
+const BG   ={Math:'#EEF2FF',Physics:'#FFF7ED',Chemistry:'#F5F3FF',Biology:'#ECFDF5',English:'#FEF2F2'};
+
+function flatten(c){const o=[];for(const[g,ss]of Object.entries(c))for(const[s,us]of Object.entries(ss))for(const u of us)o.push({grade:g,subject:s,...u});return o;}
+const grades=()=>[...new Set(ALL.map(v=>v.grade))].sort((a,b)=>+a-+b);
+const subs  =()=>[...new Set(ALL.map(v=>v.subject))].sort();
+const vis   =()=>ALL.filter(v=>{
+  if(grade!=='all'&&v.grade!==grade)return false;
+  if(sub!=='all'&&v.subject!==sub)return false;
+  if(q&&!v.title.toLowerCase().includes(q.toLowerCase())&&!v.subject.toLowerCase().includes(q.toLowerCase()))return false;
+  return true;
+});
+
+function openVideo(url){if(tg)tg.openLink(url);else window.open(url,'_blank');}
+
+function gCard(g){
+  const ct=ALL.filter(v=>v.grade===g).length;
+  const mx=Math.max(...grades().map(gr=>ALL.filter(v=>v.grade===gr).length));
+  return`<div class="gcard ${grade===g?'sel':''}" onclick="setGrade('${g}')">
+    <div class="gcard-n">${g}</div>
+    <div class="gcard-lbl">Grade</div>
+    <div class="gcard-ct">${ct} videos</div>
+    <div class="gbar"><div class="gbar-fill" style="width:${Math.round(ct/mx*100)}%"></div></div>
+  </div>`;
 }
 
-// ── Data ─────────────────────────────────────────────────────────────────────
-// IMPORTANT: Replace this URL with your hosted courses.json URL after deploying
-// e.g. "https://yourusername.github.io/alpha-edu-bot/courses.json"
-const COURSES_URL = './courses.json';
+function vCard(v,i){
+  const clean=v.title.replace(/^Unit[\s\d\.]+:\s*/i,'');
+  const unit=v.unit_no?`<div class="vunit">Unit ${v.unit_no}</div>`:'';
+  return`<div class="vcard" style="animation-delay:${i*.04}s" onclick="openVideo('${v.url}')">
+    <div class="vcard-thumb ${v.subject||'def'}">
+      <span>${ICON[v.subject]||'📖'}</span>
+      <div class="play-wrap"><div class="play-btn">▶</div></div>
+    </div>
+    <div class="vcard-body">
+      <div class="vmeta">
+        <span class="vbadge ${v.subject}">${v.subject}</span>
+        <span class="vgrade">Grade ${v.grade}</span>
+      </div>
+      ${unit}
+      <div class="vtitle">${clean}</div>
+      <div class="vwatch">Watch lesson →</div>
+    </div>
+  </div>`;
+}
 
-let allVideos  = [];
-let activeGrade   = 'all';
-let activeSubject = 'all';
+function render(){
+  const gs=grades(),ss=subs(),vids=vis(),total=ALL.length;
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-const subjectThumb = {
-  Math:      { cls: 'thumb-math',      icon: '📐' },
-  Physics:   { cls: 'thumb-physics',   icon: '⚡' },
-  Chemistry: { cls: 'thumb-chemistry', icon: '🧪' },
-  Biology:   { cls: 'thumb-biology',   icon: '🌿' },
-};
+  const gChips=['all',...gs].map(g=>`<button class="chip ${grade===g?'on-grade':''}" onclick="setGrade('${g}')">${g==='all'?'All Grades':'Grade '+g}</button>`).join('');
+  const sChips=['all',...ss].map(s=>`<button class="chip ${sub===s?'on-'+(s==='all'?'all':s):''}" onclick="setSub('${s}')">${s==='all'?'All Subjects':s}</button>`).join('');
+  const gCards=gs.map(gCard).join('');
 
-function flattenCourses(courses) {
-  const videos = [];
-  for (const [grade, subjects] of Object.entries(courses)) {
-    for (const [subject, units] of Object.entries(subjects)) {
-      for (const unit of units) {
-        videos.push({ grade, subject, ...unit });
-      }
-    }
+  let content='';
+  if(vids.length===0){
+    content=`<div class="empty"><div class="empty-ico">🔍</div><div class="empty-t">No lessons found</div><div class="empty-s">Try a different filter or search term</div></div>`;
+  } else if(sub!=='all'){
+    content=`<div class="section" style="padding-top:16px"><div class="sec-hd"><div class="sec-title">${sub} Lessons</div><div class="sec-count">${vids.length} videos</div></div></div><div class="vlist" style="padding-top:0">${vids.map((v,i)=>vCard(v,i)).join('')}</div>`;
+  } else {
+    const byS={};
+    for(const v of vids){if(!byS[v.subject])byS[v.subject]=[];byS[v.subject].push(v);}
+    content=Object.entries(byS).map(([s,vs])=>`
+      <div class="sub-hd">
+        <div class="sub-icon" style="background:${BG[s]||'#EEF2FF'};color:${COLOR[s]||'#1B4FD8'}">${ICON[s]||'📖'}</div>
+        <div class="sub-info"><h4>${s}</h4><p>${vs.length} lessons</p></div>
+      </div>
+      <div class="vlist">${vs.map((v,i)=>vCard(v,i)).join('')}</div>
+    `).join('');
   }
-  return videos;
-}
 
-function getGrades(videos) {
-  return [...new Set(videos.map(v => v.grade))].sort((a,b) => +a - +b);
-}
-
-function getSubjects(videos) {
-  return [...new Set(videos.map(v => v.subject))].sort();
-}
-
-function filtered() {
-  return allVideos.filter(v => {
-    if (activeGrade   !== 'all' && v.grade   !== activeGrade)   return false;
-    if (activeSubject !== 'all' && v.subject !== activeSubject) return false;
-    return true;
-  });
-}
-
-// ── Render ───────────────────────────────────────────────────────────────────
-function render() {
-  const grades   = getGrades(allVideos);
-  const subjects = getSubjects(allVideos);
-  const videos   = filtered();
-  const total    = allVideos.length;
-
-  const gradeChips = ['all', ...grades].map(g => `
-    <button class="chip ${activeGrade === g ? 'active' : ''}"
-            onclick="setGrade('${g}')">
-      ${g === 'all' ? 'All Grades' : 'Grade ' + g}
-    </button>`).join('');
-
-  const subjectChips = ['all', ...subjects].map(s => `
-    <button class="chip ${activeSubject === s ? 'active' : ''}"
-            onclick="setSubject('${s}')">
-      ${s === 'all' ? 'All Subjects' : s}
-    </button>`).join('');
-
-  const cards = videos.length === 0
-    ? `<div class="empty" style="grid-column:1/-1">
-         <div class="empty-icon">📚</div>
-         No videos found for this filter.
-       </div>`
-    : videos.map((v, i) => {
-        const thumb = subjectThumb[v.subject] || { cls: 'thumb-default', icon: '📖' };
-        return `
-        <div class="card subject-${v.subject}" style="animation-delay:${i*0.04}s"
-             onclick="openVideo('${v.url}')">
-          <div class="card-thumb ${thumb.cls}">
-            <div class="thumb-glow"></div>
-            <div class="thumb-icon">${thumb.icon}</div>
-            <div class="card-badges">
-              <span class="badge-subject">${v.subject}</span>
-              <span class="badge-grade">Grade ${v.grade}</span>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-unit">${v.unit_no ? 'Unit ' + v.unit_no : ''}</div>
-            <div class="card-title">${v.title.replace(/^Unit[\d\.]+:\s*/i,'')}</div>
-            <button class="card-watch" onclick="event.stopPropagation();openVideo('${v.url}')">
-              <span class="play-icon">▶</span> Watch
-            </button>
-          </div>
-        </div>`;
-      }).join('');
-
-  document.getElementById('app').innerHTML = `
-    <div class="header">
-      <div class="header-top">
-        <div class="logo">α</div>
-        <div class="header-text">
-          <h1>Alpha Ethiopian Education</h1>
-          <p>High School Learning Hub</p>
-        </div>
-        <div class="video-count">${total} Videos</div>
-      </div>
-      <div class="filters">
-        <div class="filter-label">Grade</div>
-        <div class="filter-row">${gradeChips}</div>
-        <div class="filter-label">Subject</div>
-        <div class="filter-row">${subjectChips}</div>
+  document.getElementById('root').innerHTML=`
+    <div class="nav">
+      <div class="nav-logo">α</div>
+      <div class="nav-name">Alpha Ethiopian Education</div>
+      <div class="nav-pill">${total} Lessons</div>
+    </div>
+    <div class="search-wrap">
+      <div class="search-inner">
+        <span style="color:var(--text3);font-size:15px">🔍</span>
+        <input type="text" placeholder="Search lessons or subjects…" value="${q}" oninput="doSearch(this.value)" autocomplete="off">
       </div>
     </div>
-
-    <div style="padding:16px 0 0">
-      <div class="hero">
-        <div class="hero-pattern"></div>
-        <div class="hero-math">∑∫π<br>∞√</div>
-        <div class="hero-content">
-          <h2>Elevate Your Academic Journey</h2>
-          <p>Master Math, Physics & Chemistry<br>with free video lessons</p>
-          <span class="hero-badge">Grades 9 – 12</span>
-        </div>
-      </div>
-
-      <div class="section-title">
-        <h3>All Videos</h3>
-        <span>${videos.length} available</span>
-      </div>
-
-      <div class="grid">${cards}</div>
-      <div class="bottom-space"></div>
+    <div class="chips-wrap">
+      <div class="chips-label">Grade</div>
+      <div class="chips">${gChips}</div>
     </div>
+    <div class="chips-wrap" style="padding-top:10px">
+      <div class="chips-label">Subject</div>
+      <div class="chips">${sChips}</div>
+    </div>
+    <div class="hero">
+      <div class="hero-eyebrow">🎓 Free High School Lessons</div>
+      <h2>Elevate Your<br>Academic Journey</h2>
+      <p>Master Math, Physics & Chemistry<br>with expert-led video lessons</p>
+      <div class="hero-nums">
+        <div class="hnum"><div class="hnum-n">${total}</div><div class="hnum-l">Videos</div></div>
+        <div class="hnum"><div class="hnum-n">${gs.length}</div><div class="hnum-l">Grades</div></div>
+        <div class="hnum"><div class="hnum-n">${ss.length}</div><div class="hnum-l">Subjects</div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-hd"><div class="sec-title">Browse by Grade</div></div>
+      <div class="grade-row">${gCards}</div>
+    </div>
+    <div class="section" style="padding-bottom:6px">
+      <div class="sec-hd">
+        <div class="sec-title">${sub!=='all'?sub:grade!=='all'?'Grade '+grade+' Lessons':'All Lessons'}</div>
+        <div class="sec-count">${vids.length} videos</div>
+      </div>
+    </div>
+    ${content}
+    <div class="pad"></div>
   `;
 }
 
-// ── Actions ──────────────────────────────────────────────────────────────────
-function setGrade(g) {
-  activeGrade = g;
-  render();
-}
-function setSubject(s) {
-  activeSubject = s;
-  render();
-}
-function openVideo(url) {
-  if (tg) {
-    tg.openLink(url);
-  } else {
-    window.open(url, '_blank');
-  }
-}
+function setGrade(g){grade=g;render();window.scrollTo(0,0);}
+function setSub(s){sub=s;render();window.scrollTo(0,0);}
+function doSearch(v){q=v;render();}
 
-// ── Init ─────────────────────────────────────────────────────────────────────
-async function init() {
-  try {
-    const res = await fetch(COURSES_URL);
-    if (!res.ok) throw new Error('Failed to load courses');
-    const courses = await res.json();
-    allVideos = flattenCourses(courses);
+async function init(){
+  try{
+    const r=await fetch(COURSES_URL);
+    if(!r.ok)throw new Error();
+    ALL=flatten(await r.json());
     render();
-  } catch (err) {
-    document.getElementById('app').innerHTML = `
-      <div class="loading">
-        <div class="empty-icon">⚠️</div>
-        <p style="color:#C0392B">Could not load courses.<br>Check your connection.</p>
-      </div>`;
-    console.error(err);
+  }catch{
+    document.getElementById('root').innerHTML=`<div class="loader-wrap"><p style="color:#C81E1E;font-size:14px;text-align:center">Could not load courses.<br>Check your connection.</p></div>`;
   }
 }
-
 init();
 </script>
 </body>
